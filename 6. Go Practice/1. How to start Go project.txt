@@ -1,0 +1,9 @@
+create a file with a go extention
+
+XXX.go
+
+and run command:
+
+go mod init
+
+go build to compile
