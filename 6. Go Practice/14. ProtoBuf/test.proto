@@ -1,0 +1,84 @@
+// in protobuf the smallest tags (1,2,3) for the most important field are the most important
+// in eum the default value is 0
+
+enum EyeColor {
+  UNKNOWN = 0;
+  BROWN = 1;
+  BLUE = 2;
+  GREEN = 3;
+}
+
+syntax = "proto3";
+
+message Test {
+  string name = 1;
+  int32 age = 2;
+  bool is_active = 3;
+  // repeated is like an array
+  repeated string friends = 4;
+  // enum
+  EyeColor eye_color = 5;
+}
+
+// multiple messages can be defined in the same file
+
+message Test2 {
+  string name = 1;
+  int32 age = 2;
+  bool is_active = 3;
+  repeated string friends = 4;
+  EyeColor eye_color = 5;
+}
+
+message Test3 {
+ version = 1;
+  string name = 1;
+  int32 age = 2;
+  bool is_active = 3;
+  repeated string friends = 4;
+  EyeColor eye_color = 5;
+}
+
+message Test4 {
+ Test3 test3 = 1;
+  // nested message
+    Test test = 2;
+}
+
+
+// nested messages can be defined in the same file
+import "testImport.proto";
+message Test5 {
+
+  message Nested {
+    string name = 1;
+    int32 age = 2;
+    bool is_active = 3;
+    repeated string friends = 4;
+    EyeColor eye_color = 5;
+  }
+
+   message Nested2 {
+    string name = 1;
+    int32 age = 2;
+    bool is_active = 3;
+    repeated string friends = 4;
+    EyeColor eye_color = 5;
+
+  Nested nested = 1;
+    Nested2 nested2 = 2;
+    pizza pizza = 3;
+}
+}
+
+
+
+// import package.proto
+
+import "package.proto";
+
+message Test6 {
+mypackage.packageTest packageTest = 1;
+  // nested message
+    Test test = 2;
+}

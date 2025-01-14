@@ -1,0 +1,16 @@
+// in protobuf the smallest tags (1,2,3) for the most important field are the most important
+// in eum the default value is 0
+
+
+
+syntax = "proto3";
+
+message pizza {
+ int32 version = 1;
+  string name = 2;
+  string size = 3;
+  repeated string toppings = 4;
+  bool is_delicious = 5;
+
+}
+
