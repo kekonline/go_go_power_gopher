@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package example.dummy;
+
+option go_package = "example.com/m";
+
+// Simple message
+message SimpleMessage {
+    string name = 1;
+    int32 age = 2;
+}
+
+// Complex message
+message ComplexMessage {
+    string title = 1;
+    repeated SimpleMessage items = 2;
+    SimpleMessage details = 3;
+}
