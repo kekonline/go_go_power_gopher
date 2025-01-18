@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GreetService_Grret_FullMethodName = "/greet.GreetService/Grret"
+	GreetService_Greet_FullMethodName = "/greet.GreetService/Greet"
 )
 
 // GreetServiceClient is the client API for GreetService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GreetServiceClient interface {
-	Grret(ctx context.Context, in *GreetRequest, opts ...grpc.CallOption) (*GreetResponse, error)
+	Greet(ctx context.Context, in *GreetRequest, opts ...grpc.CallOption) (*GreetResponse, error)
 }
 
 type greetServiceClient struct {
@@ -37,10 +37,10 @@ func NewGreetServiceClient(cc grpc.ClientConnInterface) GreetServiceClient {
 	return &greetServiceClient{cc}
 }
 
-func (c *greetServiceClient) Grret(ctx context.Context, in *GreetRequest, opts ...grpc.CallOption) (*GreetResponse, error) {
+func (c *greetServiceClient) Greet(ctx context.Context, in *GreetRequest, opts ...grpc.CallOption) (*GreetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GreetResponse)
-	err := c.cc.Invoke(ctx, GreetService_Grret_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, GreetService_Greet_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *greetServiceClient) Grret(ctx context.Context, in *GreetRequest, opts .
 // All implementations must embed UnimplementedGreetServiceServer
 // for forward compatibility.
 type GreetServiceServer interface {
-	Grret(context.Context, *GreetRequest) (*GreetResponse, error)
+	Greet(context.Context, *GreetRequest) (*GreetResponse, error)
 	mustEmbedUnimplementedGreetServiceServer()
 }
 
@@ -62,8 +62,8 @@ type GreetServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGreetServiceServer struct{}
 
-func (UnimplementedGreetServiceServer) Grret(context.Context, *GreetRequest) (*GreetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Grret not implemented")
+func (UnimplementedGreetServiceServer) Greet(context.Context, *GreetRequest) (*GreetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Greet not implemented")
 }
 func (UnimplementedGreetServiceServer) mustEmbedUnimplementedGreetServiceServer() {}
 func (UnimplementedGreetServiceServer) testEmbeddedByValue()                      {}
@@ -86,20 +86,20 @@ func RegisterGreetServiceServer(s grpc.ServiceRegistrar, srv GreetServiceServer)
 	s.RegisterService(&GreetService_ServiceDesc, srv)
 }
 
-func _GreetService_Grret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GreetService_Greet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GreetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreetServiceServer).Grret(ctx, in)
+		return srv.(GreetServiceServer).Greet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GreetService_Grret_FullMethodName,
+		FullMethod: GreetService_Greet_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreetServiceServer).Grret(ctx, req.(*GreetRequest))
+		return srv.(GreetServiceServer).Greet(ctx, req.(*GreetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var GreetService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GreetServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Grret",
-			Handler:    _GreetService_Grret_Handler,
+			MethodName: "Greet",
+			Handler:    _GreetService_Greet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
