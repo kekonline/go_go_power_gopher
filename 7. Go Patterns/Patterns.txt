@@ -1,0 +1,9 @@
+Fan out, fan in
+worker pool
+rate limiting
+pipelines
+deadlock detection and prevention
+reader writer probelm
+semaphore pattern
+job cancelation and timeouts
+barrier synchronization
