@@ -6,33 +6,27 @@ import (
 	"time"
 )
 
-func main() {
-	// Create a cancelable context
-	ctx, cancel := context.WithCancel(context.Background())
-
-	// Start the worker goroutine
-	go worker(ctx)
-
-	// Simulate some work in main
-	time.Sleep(2 * time.Second)
-	fmt.Println("Main: Canceling worker...")
-
-	// Cancel the worker
-	cancel()
-
-	// Give some time to see the cancellation effect
-	time.Sleep(1 * time.Second)
+// Simulate a long-running operation
+func longRunningTask(ctx context.Context, resultChan chan<- string) {
+	select {
+	case <-time.After(3 * time.Second): // Simulate a delay
+		resultChan <- "Task completed"
+	case <-ctx.Done():
+		fmt.Println("Task canceled:", ctx.Err()) // Handle timeout
+	}
 }
 
-func worker(ctx context.Context) {
-	for {
-		select {
-		case <-ctx.Done():
-			fmt.Println("Worker: Received cancellation signal")
-			return
-		default:
-			fmt.Println("Worker: Working...")
-			time.Sleep(500 * time.Millisecond)
-		}
+func main() {
+	resultChan := make(chan string)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel() // Ensure we free resources
+
+	go longRunningTask(ctx, resultChan)
+
+	select {
+	case result := <-resultChan:
+		fmt.Println("Received:", result)
+	case <-ctx.Done():
+		fmt.Println("Timeout! Task took too long:", ctx.Err())
 	}
 }
